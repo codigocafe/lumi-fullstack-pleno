@@ -34,18 +34,18 @@ export const createBilling = async (
     request:FastifyRequest,
     response:FastifyReply
 ):Promise<void> => {
-    const saved:boolean = await save(request.body);
-    if (saved)
-    {
+    try{
+        const saved = await save(request.body);
         response
             .code(200)
             .header('Content-Type', 'application/json; charset=utf-8')
             .send({success: `Fatura criado com sucesso.`});
-    } else {
+    }catch(err){
         response
             .code(500)
             .header('Content-Type', 'application/json; charset=utf-8')
-            .send({error: `Falha ao criar fatura.`});
+            .send({error: `Falha ao criar fatura. [${err}]`});
+
     }
 }
 
