@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Billing {
+  id             Int      @id @default(autoincrement())
+  clientNumber   Int
+  ecgQuantity    Int?
+  ecgValue       Decimal? @db.Decimal(5, 2)
+  eeQuantity     Int?
+  eeValue        Decimal? @db.Decimal(5, 2)
+  esiQuantity    Int?
+  esiValue       Decimal? @db.Decimal(5, 2)
+  publicTax      Decimal? @db.Decimal(5, 2)
+  referenceMonth DateTime @db.Date
+}
