@@ -1,10 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import {iBilling} from "../interfaces/iBilling";
 
+const pg:PrismaClient = new PrismaClient();
+
 export const save = async (data:iBilling):Promise<boolean> => {
     try {
         const { clientNumber, referenceMonth, eeQuantity, eeValue, esiQuantity, esiValue, ecgQuantity, ecgValue, publicTax } = data;
-        const pg:PrismaClient = new PrismaClient();
         await pg.billing.create({
             data: {
                 clientNumber,
@@ -25,8 +26,16 @@ export const save = async (data:iBilling):Promise<boolean> => {
     }
 }
 export const getAll = async () => {
-    const pg:PrismaClient = new PrismaClient();
     // @ts-ignore
     const billings = await pg.billing.findMany();
     return billings;
+}
+
+export const get = async( id:number ) => {
+    const billing = await pg.billing.findUnique({
+        where: {
+            id: id
+        }
+    });
+    return billing;
 }

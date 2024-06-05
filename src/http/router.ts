@@ -1,20 +1,18 @@
 import {FastifyInstance} from "fastify";
 
 import {home} from "../controllers/home-controller";
-import {create, readAll} from "../controllers/billing-controller";
+import {create, read, readAll as readAllBilling} from "../controllers/billing-controller";
+import { readAll as readAllClient } from  "../controllers/client-controller";
 
 const Router = (server:FastifyInstance):void => {
 
     server.get('/', home);
 
-    server.get('/billing', readAll);
-    // server.get('/billing/:id', billingGetItem);
+    server.get('/billing', readAllBilling);
+    server.get('/billing/:id', read);
     server.post('/billing', create);
-    // server.get('/billing/search', billingFilter);
 
-    // server.get('/clients', clientGetAll);
-    // server.post('/clients', clientCreateItem);
-
+    server.get('/clients', readAllClient);
 }
 
 export default Router;

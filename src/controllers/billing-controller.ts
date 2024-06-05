@@ -1,5 +1,5 @@
-import Fastify, {FastifyReply, FastifyRequest} from "fastify";
-import {getAll, save} from "../repositories/billing";
+import {FastifyReply, FastifyRequest} from "fastify";
+import {get, getAll, save} from "../repositories/billing";
 import {iBilling} from "../interfaces/iBilling";
 
 
@@ -22,7 +22,15 @@ export const create = async (
     }
 }
 
-const read = () => {}
+export const read = async (
+    request:FastifyRequest,
+    response: FastifyReply
+) => {
+    //@ts-ignore
+    const id:number = parseInt(request.params.id);
+    const billing = await get(id);
+    response.code(200).header("Content-Type", "application/json; charset=utf-8").send(billing)
+}
 
 export const readAll = async (
     request:FastifyRequest,
@@ -41,27 +49,3 @@ export const readAll = async (
             .send({ "error": "Erro ao carregar faturas." });
     }
 }
-
-
-
-
-
-
-// export const createBilling = async (
-//     request:FastifyRequest,
-//     response:FastifyReply
-// ):Promise<void> => {
-//     try{
-//         const saved =
-//         response
-//             .code(200)
-//             .header('Content-Type', 'application/json; charset=utf-8')
-//             .send({success: `Fatura criado com sucesso.`});
-//     }catch(err){
-//         response
-//             .code(500)
-//             .header('Content-Type', 'application/json; charset=utf-8')
-//             .send({error: `Falha ao criar fatura. [${err}]`});
-//
-//     }
-// }
