@@ -24,9 +24,9 @@ export const save = async (data:iBilling):Promise<boolean> => {
         return false;
     }
 }
-export const all = async ():Promise<iBilling[]> => {
+export const getAll = async () => {
     const pg:PrismaClient = new PrismaClient();
     // @ts-ignore
-    const billings:iBilling[] = await pg.billing.findMany();
+    const billings = await pg.billing.findMany();
     return billings;
 }
